@@ -1,0 +1,54 @@
+h1{
+  text-align: center;
+}
+
+.container{
+  text-align: center;
+}
+
+li {
+  text-align: left;
+  display: inline-block;
+}
+
+#qrcode-area{
+  text-align: center;
+}
+
+
+.bs-component + .bs-component {
+  margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+  .bs-docs-section {
+    margin-top: 8em;
+  }
+  .bs-component {
+    position: relative;
+  }
+  .bs-component .modal {
+    position: relative;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
+    z-index: 1;
+    display: block;
+  }
+  .bs-component .modal-dialog {
+    width: 90%;
+  }
+  .bs-component .popover {
+    position: relative;
+    display: inline-block;
+    width: 220px;
+    margin: 20px;
+  }
+  .nav-tabs {
+    margin-bottom: 15px;
+  }
+  .progress {
+    margin-bottom: 10px;
+  }
+}

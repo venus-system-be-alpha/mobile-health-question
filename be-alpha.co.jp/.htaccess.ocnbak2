@@ -1,0 +1,17 @@
+## Don't touch from this line to the line <=== VPSPortal END ==>.
+## <=== VPSPortal START ==>
+<Files ~ "^\.ht">
+    deny from all
+</Files>
+AuthUserfile /usr/local/apache/htdocs/.htpasswd
+AuthGroupfile /dev/null
+AuthName "Please enter username and password"
+AuthType Basic
+# <=== user access setting START ===>
+# <=== user access setting END ===>
+# <=== IP access setting START ===>
+order allow,deny
+allow from all
+deny from 122.4.170.194
+# <=== IP access setting END ===>
+## <=== VPSPortal END ==>

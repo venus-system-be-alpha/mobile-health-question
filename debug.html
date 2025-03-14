@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+  <title>スマホ問診</title>
+  <!-- 必要なメタタグ -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="lib/honoka/css/bootstrap.min.css">
+
+  <!--   font-awesome CSS -->
+  <link rel="stylesheet" href="lib/font-awesome-4.7.0/css/font-awesome.min.css">
+  <!--   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />  -->
+
+  <!--   メインCSS -->
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+  <h1>標準的な質問票 </h1>
+
+  <div class="container">
+
+    <div class="row">
+      <p></p>
+    </div>
+
+    <div class="row">
+      <div class="col">
+
+        <div id="qindex"></div>
+        <script id="qindexTemplate" type="text/x-jsrender">
+            <p>質問: <span class="js-index"></span>/{{:datacount}}</p> 
+        </script>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+
+        <div id="jsrenderResult"></div>
+        <script id="questionTemplate" type="text/x-jsrender">
+                <div>
+                <li>
+                <h5>{{:Question}}</h5>
+                <p></p>
+                    <form>
+                    <fieldset>
+                    <div class="form-group">
+                
+                            {{for Answer}}
+                            <div class="custom-control custom-radio">
+                            <input type="radio" id="customRadio_{{:customindex}}" name="customRadio" class="custom-control-input" value="{{:value}}">
+                            <label class="custom-control-label" for="customRadio_{{:customindex}}"><h5>{{:text}}</h5></label>
+                            </div>
+                            {{/for}}
+                
+                    </div>
+                    </fieldset>
+                    </form>
+                </li>
+                </div>       
+            </script>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button type="button" class="btn btn-primary prev">
+          <span class="fa fa-arrow-left" aria-hidden="true"> 前の質問</span>
+        </button>
+        <button type="button" class="btn btn-primary next">
+          <span class="fa fa-arrow-right" aria-hidden="true"> 次の質問</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <p></p>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <button type="button" class="btn btn-success">
+          <span class="fa fa-refresh" aria-hidden="true"> やり直す</span>
+        </button>
+        <button type="button" class="btn btn-info">
+          <span class="fa fa-qrcode" aria-hidden="true"> QRコード作成</span>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">c 2019 Copyright
+      <a href="http://www.be-alpha.co.jp/"> be-alpha.co.jp</a>
+    </div>
+    <!-- Copyright -->
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal" id="modal-answer" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">回答チェック</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="alert alert-warning">回答していないものがあります。<br>全ての質問に答えてください。</p>
+          <hr>
+          <p>
+            <div class="no-answer"></div>
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            <span class="fa fa-window-close" aria-hidden="true">　閉じる</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal-qrcode" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">QRコード</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>
+            <div id="qrcode" style="display:none"></div>
+            <div id=qrcode-area><img id="qrcode-img" src=""></div>
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            <span class="fa fa-window-close" aria-hidden="true">　閉じる</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="modal-nextcheck" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">回答チェック</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="alert alert-warning">この質問への回答は必須です。</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">
+            <span class="fa fa-window-close" aria-hidden="true">　閉じる</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- オプションのJavaScript -->
+  <script src="lib/jquery/jquery-3.4.1.slim.min.js"></script>
+  <!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"
+        integrity="sha256-pasqAKBDmFT4eHoN2ndd6lN370kFiGUFyTiUHWhU7k8=" crossorigin="anonymous"></script> -->
+
+  <script src="lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+        integrity="sha256-fzFFyH01cBVPYzl16KT40wqjhgPtq6FFUB6ckN2+GGw=" crossorigin="anonymous"></script> -->
+
+  <script src="lib/jsrender/jsrender.min.js"></script>
+  <!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/1.0.4/jsrender.min.js"
+        integrity="sha256-s+wXPcRhQXvh1VlUAEpAIwi8DaDCxbNpB4QsJ6Kwdro=" crossorigin="anonymous"></script> -->
+
+  <script src="lib/siema/siema.min.js"></script>
+  <script src="lib/jquery.qrcode/jquery.qrcode.min.js"></script>
+
+  <!-- 質問と答えのデータ -->
+  <!--   開発用 -->
+  <script src="js/QA.js"></script>
+  <!--   本番環境 -->
+  <!--   <script src="js/QA-min.js"></script> -->
+
+  <!-- メインスクリプト -->
+  <!--   開発用 -->
+  <script src="js/myscript.js"></script>
+  <!--   本番環境 -->
+  <!--   <script src="js/myscript-min.js"></script> -->
+</body>
+
+</html>
